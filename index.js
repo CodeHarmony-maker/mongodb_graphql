@@ -1,9 +1,12 @@
-import express from "express";
-import bodyParser from "body-parser";
-const { graphqlHTTP } = require("express-graphql");
-import cors from "cors";
+import express from 'express';
+import bodyParser from 'body-parser';
+import {graphqlHTTP} from 'express-graphql';
+import cors from 'cors';
+import mongoose from 'mongoose';
+require('dotenv').config();
 const app = express();
 app.use(cors(), bodyParser.json());
+
 app.use(
   "/graphql",
   graphqlHTTP({
@@ -12,8 +15,16 @@ app.use(
     graphiql: true,
   })
 );
+
 function main() {
-  const port = process.env.PORT || 5000;
-  app.listen(port, () => console.log(`Server is listening on port: ${port}`));
-}
+    const port = process.env.PASSWORD || 5000;
+    const uri = process.env.DB
+    mongoose.connect(uri, { useNewUrlParser: true ,useUnifiedTopology: true })
+    .then(() => {
+      app.listen(port, () => console.log(`Server is listening on port: ${port}`));
+    })
+    .catch(err => {
+      console.log(err);
+    })
+  }
 main();
