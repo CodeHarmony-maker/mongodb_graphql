@@ -19,7 +19,7 @@ app.use(
 );
 
 function main() {
-    const port = process.env.PASSWORD || 5000;
+    const port = process.env.PORT || 5000;
     const uri = process.env.DB
     mongoose.connect(uri, { useNewUrlParser: true ,useUnifiedTopology: true })
     .then(() => {
