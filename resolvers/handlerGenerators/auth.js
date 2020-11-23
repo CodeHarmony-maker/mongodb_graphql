@@ -44,3 +44,13 @@ export async function createUser(args) {
       throw err;
     }
   }
+  export async function verifyToken(args) {
+    try {
+      const decoded = jwt.verify(args.token, "mysecret");
+      const user = await User.findOne({ _id: decoded.id })
+      return { ...user._doc, password: null };
+    }
+    catch (err) {
+      throw err;
+    }
+  }
